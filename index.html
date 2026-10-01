@@ -339,6 +339,24 @@ footer a { color:var(--muted); }
   </figure>
 </section>
 
+<section id="example">
+  <h2>Example Pseudo-Formal Proof</h2>
+  <p>Here is an example of a Pseudo-Formal version of a
+  <a href="https://1stproof.org">First Proof</a> problem. The proof is an AI
+  system's submitted
+  attempt (proof <span class="mono">03C</span> of FirstProofGradingBench), shown
+  both as the Pseudo-Formal proof our method translates it into and as the
+  original natural language proof.</p>
+
+  <div class="problembox" id="ex-problem"></div>
+  <div class="views" role="tablist">
+    <button role="tab" aria-selected="true"  data-v="pf">Pseudo-Formal view</button>
+    <button role="tab" aria-selected="false" data-v="nl">Natural language view</button>
+  </div>
+  <div class="pfbox" id="ex-pf"></div>
+  <div class="proofbox" id="ex-nl" hidden></div>
+</section>
+
 <section id="data">
   <h2>Data</h2>
   <p>We release two benchmarks. <b>ArxivMathGradingBench</b> is 100 arXiv
@@ -372,24 +390,6 @@ footer a { color:var(--muted); }
       </tr></thead><tbody id="ax-body"></tbody></table>
     </div>
   </div>
-</section>
-
-<section id="example">
-  <h2>Example Pseudo-Formal Proof</h2>
-  <p>Here is an example of a Pseudo-Formal version of a
-  <a href="https://1stproof.org">First Proof</a> problem. The proof is an AI
-  system's submitted
-  attempt (proof <span class="mono">03C</span> of FirstProofGradingBench), shown
-  both as the Pseudo-Formal proof our method translates it into and as the
-  original natural language proof.</p>
-
-  <div class="problembox" id="ex-problem"></div>
-  <div class="views" role="tablist">
-    <button role="tab" aria-selected="true"  data-v="pf">Pseudo-Formal view</button>
-    <button role="tab" aria-selected="false" data-v="nl">Natural language view</button>
-  </div>
-  <div class="pfbox" id="ex-pf"></div>
-  <div class="proofbox" id="ex-nl" hidden></div>
 </section>
 
 <footer>
