@@ -320,6 +320,23 @@ footer a { color:var(--muted); }
   premises, conclusion, and proof. To verify a natural language proof, an LLM
   translates it into Pseudo-Formal form and then checks each module
   independently &mdash; an algorithm we call <b>Block Verification</b> (BV).</p>
+  <p>PF&nbsp;+&nbsp;BV pareto-dominates LLM-as-judge baselines on error-finding
+  precision and recall across three benchmarks spanning olympiad and
+  research-level mathematics.</p>
+
+  <figure class="fig">
+    <img src="static/fig1_web.png"
+         alt="Left: a natural language proof is translated into a Pseudo-Formal
+              tree of blocks, then each block is verified independently. Right:
+              precision against recall on Hard2Verify, ArxivMathGradingBench and
+              FirstProofGradingBench, with Pseudo-Formalization above the
+              LLM-as-judge baseline on all three.">
+    <figcaption><b>Left:</b> a natural language proof is translated into a
+    Pseudo-Formal representation and each block is verified independently.
+    <b>Right:</b> precision against recall on all three benchmarks, each curve
+    tracing multiple independent runs aggregated per problem.
+    Pseudo-Formalization achieves higher recall at every precision level.</figcaption>
+  </figure>
 </section>
 
 <section id="example">
@@ -338,27 +355,6 @@ footer a { color:var(--muted); }
   </div>
   <div class="pfbox" id="ex-pf"></div>
   <div class="proofbox" id="ex-nl" hidden></div>
-</section>
-
-<section id="results">
-  <h2>Results</h2>
-  <p>PF&nbsp;+&nbsp;BV pareto-dominates LLM-as-judge baselines on error-finding
-  precision and recall across three benchmarks spanning olympiad and
-  research-level mathematics.</p>
-
-  <figure class="fig">
-    <img src="static/fig1_web.png"
-         alt="Left: a natural language proof is translated into a Pseudo-Formal
-              tree of blocks, then each block is verified independently. Right:
-              precision against recall on Hard2Verify, ArxivMathGradingBench and
-              FirstProofGradingBench, with Pseudo-Formalization above the
-              LLM-as-judge baseline on all three.">
-    <figcaption><b>Left:</b> a natural language proof is translated into a
-    Pseudo-Formal representation and each block is verified independently.
-    <b>Right:</b> precision against recall on all three benchmarks, each curve
-    tracing multiple independent runs aggregated per problem.
-    Pseudo-Formalization achieves higher recall at every precision level.</figcaption>
-  </figure>
 </section>
 
 <section id="data">
