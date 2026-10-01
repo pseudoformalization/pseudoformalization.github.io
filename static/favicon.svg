@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Block verification: one block correct, one incorrect. Colours match the
+       figure legend. Sized to fill the tile, since a tab favicon is 16px. -->
+  <rect x="1"  y="8" width="13" height="16" rx="2.5" fill="#1f4e5f"/>
+  <rect x="18" y="8" width="13" height="16" rx="2.5" fill="#b03a2e"/>
+</svg>
