@@ -251,6 +251,20 @@ table.arxiv .loc { font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
   color:#2a2c33; font-size:.9rem; }
 .card p { margin:.55rem 0; }
 .card mjx-container[display="true"] { overflow-x:auto; overflow-y:hidden; }
+/* blocks where our verifier found a (referee-confirmed) error */
+.card > summary .tag {
+  margin-left:.6rem; padding:.1rem .5rem; border-radius:999px; vertical-align:.08em;
+  font:600 .64rem/1.5 ui-sans-serif,system-ui,sans-serif; letter-spacing:.05em;
+  text-transform:uppercase; background:#b8891c; color:#fff;
+}
+.card.found > summary { border-left:3px solid #e2b53c; }
+.found-err {
+  background:#fdf3d8; border-left:3px solid #e2b53c; border-radius:0 5px 5px 0;
+  padding:.7rem .9rem; margin:.9rem 0 .6rem; font-size:.88rem;
+}
+.card .errnote { margin:0; }
+.found-err p:first-of-type, .card .errnote p:first-of-type { margin-top:0; }
+.found-err p:last-child { margin-bottom:0; }
 
 footer {
   margin-top:4.5rem; padding-top:1.5rem; border-top:1px solid var(--line);
@@ -505,12 +519,18 @@ window.MathJax = {
     const exPf   = document.getElementById('ex-pf');
     const exNl   = document.getElementById('ex-nl');
     exProb.innerHTML = '<span class="lbl">Problem</span>' + X.problem_html;
+    const found = f => !f ? '' : `
+      <div class="found-err"><span class="lbl">Error found by our verifier
+        (in ${f.runs} of ${f.n_runs} runs)</span>${f.desc}</div>
+      ${f.gold.map(g => `<div class="errnote"><span class="lbl">Matches referee
+        error ${g.n}</span>${g.desc}</div>`).join('')}`;
     exPf.innerHTML = X.blocks.map((b, i) => `
-      <details class="card d${b.depth}">
-        <summary>${esc(b.label)}</summary>
+      <details class="card d${b.depth}${b.found ? ' found' : ''}">
+        <summary>${esc(b.label)}${b.found ? '<span class="tag">Error found</span>' : ''}</summary>
         <div class="inner">
           <span class="lbl">Statement</span>${b.statement}
           ${b.proof ? `<div class="pf"><span class="lbl">Proof</span>${b.proof}</div>` : ''}
+          ${found(b.found)}
         </div>
       </details>`).join('');
     exNl.innerHTML = X.proof_html;
