@@ -1,0 +1,343 @@
+/* shared by index.html and oai.html */
+:root {
+  --bg:#ffffff;          /* white so figure backgrounds do not show as plates */
+  /* Deliberately single-theme: white-background figures and the yellow
+     error highlights both depend on a light ground. */
+  --ink:#17181c;
+  --muted:#63656d;
+  --line:#e4e1da;
+  --panel:#fafaf8;       /* faint, for chips only — figures sit on --bg */
+  --accent:#1f4e5f;      /* the dark teal of the PF curve in Figure 1 */
+  --accent-soft:#eaf1f3;
+}
+
+* { box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body {
+  margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.65 ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+main { max-width:52rem; margin:0 auto; padding:4.5rem 1.5rem 6rem; }
+
+/* ---- header ---- */
+header { text-align:center; padding-bottom:2.5rem; border-bottom:1px solid var(--line); }
+h1 {
+  font-size:clamp(1.75rem, 4.2vw, 2.6rem); line-height:1.15;
+  margin:0 0 1.5rem; letter-spacing:-.015em; text-wrap:balance;
+}
+.authors { font-size:1.02rem; margin:0 0 .5rem; line-height:1.9; }
+.authors a { color:var(--ink); text-decoration:none;
+  border-bottom:1px solid var(--line); }
+.authors a:hover { border-bottom-color:var(--accent); }
+sup { color:var(--accent); font-size:.72em; }
+.affil { color:var(--muted); font-size:.98rem; margin:0 0 .35rem; }
+.eq { color:var(--muted); font-size:.85rem; margin:0; }
+
+/* ---- link row ---- */
+.links {
+  display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center;
+  margin:2rem 0 0;
+}
+.links a {
+  display:inline-flex; align-items:center; gap:.45rem;
+  padding:.5rem 1rem; border-radius:999px;
+  border:1px solid var(--line); background:var(--panel);
+  color:var(--ink); text-decoration:none;
+  font:500 .88rem/1 ui-sans-serif,system-ui,-apple-system,sans-serif;
+  transition:border-color .15s, color .15s, background .15s;
+}
+.links a:hover { border-color:var(--accent); color:var(--accent); }
+.links a[aria-disabled="true"] {
+  opacity:.5; pointer-events:none;
+}
+.links svg { width:15px; height:15px; flex:none; }
+
+
+/* ---- sections ---- */
+section { padding-top:3.25rem; }
+h2 {
+  font-size:clamp(1.5rem, 3vw, 1.9rem); font-weight:600; line-height:1.25;
+  letter-spacing:-.01em; color:var(--ink);
+  margin:0 0 1.1rem;
+}
+section > p { margin:0 0 1.15rem; }
+section > p:last-child { margin-bottom:0; }
+section > p a { color:var(--accent); }
+code, .mono {
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.88em;
+}
+.lede { font-size:1.06rem; }
+
+/* Figures are white-background PNGs and the page is light, so they need no
+   plate. Wrap paper figures in <figure class="fig">. */
+
+/* Figures are white-background PNGs and the page is light, so they need no
+   plate. Wrap paper figures in <figure class="fig">. */
+.fig { margin:1.75rem 0; }
+.fig img { display:block; width:100%; height:auto; border-radius:8px; }
+.fig figcaption { color:var(--muted); font-size:.88rem; margin-top:.7rem; }
+
+/* ---- data section: tabs ---- */
+.tabs { display:flex; gap:.4rem; margin:0 0 1.5rem; flex-wrap:wrap; }
+.tabs button {
+  font:500 .86rem/1 ui-sans-serif,system-ui,-apple-system,sans-serif;
+  padding:.5rem .95rem; border-radius:999px; cursor:pointer;
+  border:1px solid var(--line); background:var(--panel); color:var(--ink);
+}
+.tabs button[aria-selected="true"] {
+  border-color:var(--accent); color:var(--accent); background:var(--accent-soft);
+}
+.pane[hidden] { display:none; }
+.hint { color:var(--muted); font-size:.9rem; margin:0 0 1.25rem; }
+
+/* ---- FirstProof browser ---- */
+.picker { display:flex; flex-wrap:wrap; gap:.35rem; margin:0 0 1.1rem; }
+.picker button {
+  font:500 .8rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  padding:.4rem .6rem; border-radius:6px; cursor:pointer;
+  border:1px solid var(--line); background:var(--panel); color:var(--muted);
+}
+.picker button[aria-current="true"] {
+  border-color:var(--accent); color:var(--accent); background:var(--accent-soft);
+}
+.picker button .n {
+  font-size:.72em; margin-left:.35rem; opacity:.75;
+}
+.proofbox {
+  /* vertical scroll only — a wide equation scrolls inside its own container
+     (see mjx-container below) rather than scrolling the whole proof sideways,
+     which is what made this feel two-dimensional */
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  padding:1.25rem 0; margin:0;
+  max-height:34rem; overflow-y:auto; overflow-x:hidden;
+  font-size:.94rem; line-height:1.65;
+  /* no side padding, so the proof text keeps the same left edge as the rest
+     of the page */
+  scrollbar-gutter:stable;
+}
+.proofbox .head { font-weight:600; margin:1.6rem 0 .5rem; font-size:1.02em; }
+.proofbox .envhead { font-weight:600; margin:1.3rem 0 .35rem; }
+.proofbox .ref { color:var(--accent); }
+.proofbox .bullet { color:var(--muted); margin-right:.35rem; }
+.proofbox p { margin:.7rem 0; }
+/* display equations are the one thing that can exceed the column; let them
+   scroll on their own rather than widening the page */
+.proofbox mjx-container[display="true"] { overflow-x:auto; overflow-y:hidden;
+  padding:.2rem 0; }
+.problembox {
+  border-left:3px solid var(--accent); padding:.2rem 0 .2rem 1rem;
+  margin:0 0 1.5rem; font-size:.94rem;
+}
+.problembox .lbl, .errnote .lbl {
+  font:600 .68rem/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted); display:block; margin-bottom:.3rem;
+}
+mark.hl {
+  display:block; position:relative; background:#fdf3d8; color:inherit;
+  border-left:3px solid #e2b53c; border-radius:0 5px 5px 0;
+  padding:.5rem .7rem .5rem 2.4rem; margin:.9rem 0 0;
+}
+mark.hl > p:first-child { margin-top:0; }
+mark.hl > p:last-child { margin-bottom:0; }
+.hlnum {
+  position:absolute; left:.55rem; top:.55rem;
+  display:inline-block; min-width:1.3em; height:1.3em; line-height:1.3em;
+  text-align:center; border-radius:4px; background:#b8891c; color:#fff;
+  font:600 .7rem/1.3em ui-sans-serif,system-ui,sans-serif;
+}
+/* the referee-derived description, sitting directly under its span */
+.errnote {
+  border-left:3px solid var(--accent); background:var(--accent-soft);
+  border-radius:0 5px 5px 0; padding:.7rem .9rem; margin:0 0 .9rem 0;
+  font-size:.88rem;
+}
+.errnote p:first-of-type { margin-top:0; }
+.errnote p:last-child { margin-bottom:0; }
+.clean {
+  color:var(--muted); font-size:.9rem; border-left:3px solid var(--line);
+  padding:.5rem 0 .5rem 1rem; margin:0 0 1.25rem;
+}
+
+/* ---- arXiv table ---- */
+/* matches .proofbox: hairlines top and bottom, full content width, vertical
+   scroll only */
+.tablewrap {
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  max-height:34rem; overflow-y:auto; overflow-x:hidden;
+  scrollbar-gutter:stable;
+}
+table.arxiv { border-collapse:collapse; width:100%; font-size:.85rem;
+  table-layout:fixed; }
+table.arxiv th {
+  position:sticky; top:0; z-index:1; background:var(--bg); text-align:left;
+  font:600 .7rem/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--muted);
+  padding:.7rem .8rem .55rem 0; border-bottom:1px solid var(--line);
+}
+table.arxiv th + th, table.arxiv td + td { padding-left:.9rem; }
+table.arxiv td { padding:.7rem .8rem .7rem 0; vertical-align:top;
+  border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
+table.arxiv col.c-paper { width:22%; }
+table.arxiv col.c-cat   { width:11%; }
+table.arxiv col.c-note  { width:52%; }
+table.arxiv col.c-loc   { width:15%; }
+table.arxiv tr:last-child td { border-bottom:0; }
+table.arxiv a { color:var(--accent); text-decoration:none; }
+table.arxiv a:hover { text-decoration:underline; }
+table.arxiv .cat { color:var(--muted); white-space:nowrap; }
+table.arxiv .ttl { color:var(--muted); display:block; margin-top:.2rem;
+  line-height:1.4; }
+table.arxiv .loc { font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.92em; line-height:1.45; }
+
+/* ---- example PF proof ---- */
+/* own class, not .tabs: the Data section's tab handler grabs every .tabs button */
+.views { display:flex; gap:.4rem; margin:0 0 1.25rem; flex-wrap:wrap; align-items:center; }
+.views button {
+  font:500 .86rem/1 ui-sans-serif,system-ui,-apple-system,sans-serif;
+  padding:.5rem .95rem; border-radius:999px; cursor:pointer;
+  border:1px solid var(--line); background:var(--panel); color:var(--ink);
+}
+.views button[aria-selected="true"] {
+  border-color:var(--accent); color:var(--accent); background:var(--accent-soft);
+}
+.proofbox[hidden], #ex-pf[hidden], .zoom[hidden] { display:none; }
+/* zoom controls share the view-toggle row, pushed right */
+.zoom { margin-left:auto; display:flex; gap:.3rem; align-items:center; }
+.views .zoom button { padding:.45rem .7rem; min-width:2.2rem; }
+.zoom .zpct { font:500 .78rem/1 ui-sans-serif,system-ui,sans-serif; color:var(--muted);
+  min-width:3em; text-align:center; font-variant-numeric:tabular-nums; }
+
+/* the canvas: a transformed "world" holding absolutely placed nodes and one
+   SVG of edges; the dot grid is the canvas background, moved with the pan */
+.graph {
+  position:relative; height:25rem; overflow:hidden; border-radius:10px;
+  border:1px solid var(--line); background-color:var(--panel);
+  background-image:radial-gradient(circle, #d3d0c7 1px, transparent 1.3px);
+  cursor:grab; touch-action:none; user-select:none; -webkit-user-select:none;
+}
+.graph.dragging { cursor:grabbing; }
+.world { position:absolute; left:0; top:0; transform-origin:0 0; }
+.world svg { position:absolute; left:0; top:0; overflow:visible; pointer-events:none; }
+.edge { fill:none; stroke:#a9a69e; stroke-width:1.2; }
+.edge.on { stroke:var(--accent); stroke-width:2; }
+.gstat {
+  position:absolute; left:.75rem; bottom:.75rem; padding:.3rem .65rem;
+  background:var(--bg); border:1px solid var(--line); border-radius:6px;
+  font:500 .74rem/1.4 ui-sans-serif,system-ui,sans-serif; color:var(--muted);
+}
+.node {
+  position:absolute; width:136px; height:58px; padding:.4rem .55rem;
+  text-align:left; overflow:hidden; cursor:pointer; color:var(--ink);
+  background:var(--bg); border:1px solid #cfccc4; border-radius:5px;
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
+  font:600 11px/1.3 ui-sans-serif,system-ui,-apple-system,sans-serif;
+}
+.node:hover { border-color:var(--accent); }
+.node .k { display:block; font-weight:500; font-size:9.5px; color:var(--muted);
+  margin-bottom:.15rem; white-space:nowrap; }
+.node .t { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  overflow:hidden; }
+.node .t mjx-container { font-size:105% !important; }
+/* blocks where our verifier found a (referee-confirmed) error */
+.node.found { background:#fdf3d8; border-color:#e2b53c; }
+.node.found .k { color:#9a7214; }
+.node.sel { border-color:var(--accent); box-shadow:0 0 0 2px var(--accent); }
+.node.sel:not(.found) { background:var(--accent-soft); }
+.gcap { color:var(--muted); font-size:.88rem; margin:.7rem 0 0; }
+.gcap .sw { display:inline-block; width:.9em; height:.9em; vertical-align:-.1em;
+  margin:0 .1em; border:1px solid #e2b53c; background:#fdf3d8; border-radius:2px; }
+
+/* the selected block, in full */
+.detail {
+  border:1px solid var(--line); border-radius:10px; padding:1.2rem 1.4rem;
+  margin:1.5rem 0 0; font-size:.94rem; line-height:1.6;
+}
+.detail .lbl {
+  font:600 .68rem/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted); display:block; margin-bottom:.4rem;
+}
+.detail h3 { font-size:1.3rem; font-weight:600; margin:0 0 .5rem; line-height:1.3; }
+.detail .tag {
+  margin-left:.6rem; padding:.1rem .5rem; border-radius:999px; vertical-align:.2em;
+  font:600 .64rem/1.5 ui-sans-serif,system-ui,sans-serif; letter-spacing:.05em;
+  text-transform:uppercase; background:#b8891c; color:#fff;
+}
+.detail .rel { font:500 .8rem/1.9 ui-sans-serif,system-ui,sans-serif; color:var(--muted);
+  margin:0 0 1rem; }
+.detail .rel button {
+  font:inherit; color:var(--accent); background:var(--accent-soft); cursor:pointer;
+  border:0; border-radius:4px; padding:.05rem .45rem; margin:0 .15rem;
+}
+.detail .pf { border-top:1px dashed var(--line); margin-top:1rem; padding-top:.8rem;
+  color:#2a2c33; }
+.detail p { margin:.55rem 0; }
+.detail mjx-container[display="true"] { overflow-x:auto; overflow-y:hidden; }
+.found-err {
+  background:#fdf3d8; border-left:3px solid #e2b53c; border-radius:0 5px 5px 0;
+  padding:.7rem .9rem; margin:1rem 0 .6rem; font-size:.88rem;
+}
+.detail .errnote { margin:0; }
+.found-err p:first-of-type, .detail .errnote p:first-of-type { margin-top:0; }
+.found-err p:last-child { margin-bottom:0; }
+
+footer {
+  margin-top:4.5rem; padding-top:1.5rem; border-top:1px solid var(--line);
+  color:var(--muted); font-size:.85rem; text-align:center;
+}
+footer a { color:var(--muted); }
+
+/* ---- PF text structure (oai.html: assumptions / statement labels, lists) ---- */
+.detail .lbl.sub { margin-top:.9rem; }
+.detail p.li { position:relative; padding-left:1.1rem; margin:.3rem 0; }
+.detail p.li:not(.num)::before { content:"\2022"; position:absolute; left:.25rem; color:var(--muted); }
+.detail p.li.num { padding-left:0; }
+.detail p.l2 { margin-left:1.1rem; }
+
+/* ---- page tabs: sit on the header's bottom rule ---- */
+header { padding-bottom:0; }
+.pagetabs { display:flex; justify-content:center; gap:.5rem; margin:2.4rem 0 -1px; }
+.pagetabs button {
+  font:500 1rem/1 ui-sans-serif,system-ui,-apple-system,sans-serif;
+  padding:.85rem 1.2rem; cursor:pointer; color:var(--muted); background:none;
+  border:0; border-bottom:2px solid transparent;
+}
+.pagetabs button:hover { color:var(--ink); }
+.pagetabs button[aria-selected="true"] { color:var(--accent); border-bottom-color:var(--accent); }
+section[hidden] { display:none; }
+
+/* ---- OpenAI manuscripts tab ---- */
+.search input {
+  width:100%; padding:.7rem .95rem; border:1px solid var(--line); border-radius:8px;
+  background:var(--bg); color:var(--ink);
+  font:400 .95rem/1.3 ui-sans-serif,system-ui,-apple-system,sans-serif;
+}
+.search input:focus { outline:none; border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-soft); }
+.results {
+  margin:.6rem 0 1.75rem; max-height:15rem; overflow-y:auto;
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  scrollbar-gutter:stable;
+}
+.results button {
+  display:block; width:100%; text-align:left; cursor:pointer; color:var(--ink);
+  background:none; border:0; border-bottom:1px solid var(--line);
+  padding:.55rem .4rem; font:inherit; font-size:.93rem; line-height:1.4;
+}
+.results button:last-child { border-bottom:0; }
+.results button:hover { background:var(--panel); }
+.results button[aria-selected="true"] { background:var(--accent-soft); color:var(--accent); }
+.results .m { display:block; color:var(--muted); margin-top:.1rem;
+  font:400 .74rem/1.4 ui-sans-serif,system-ui,sans-serif; }
+.results .none { color:var(--muted); padding:.7rem .4rem; font-size:.9rem; }
+.problembox h3 { font-size:1.15rem; line-height:1.35; margin:0 0 .4rem; }
+.problembox .fam { color:var(--muted); font-size:.86rem; margin:0 0 .6rem; }
+.problembox p { margin:0; }
+.views a {
+  font:500 .86rem/1 ui-sans-serif,system-ui,-apple-system,sans-serif;
+  padding:.5rem .95rem; border-radius:999px; text-decoration:none;
+  border:1px solid var(--line); background:var(--panel); color:var(--ink);
+}
+.views a:hover { border-color:var(--accent); color:var(--accent); }
+.graph.tall { height:32rem; }

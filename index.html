@@ -17,261 +17,7 @@
 <link rel="icon" href="static/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="static/apple-touch-icon.png">
 
-<style>
-:root {
-  --bg:#ffffff;          /* white so figure backgrounds do not show as plates */
-  /* Deliberately single-theme: white-background figures and the yellow
-     error highlights both depend on a light ground. */
-  --ink:#17181c;
-  --muted:#63656d;
-  --line:#e4e1da;
-  --panel:#fafaf8;       /* faint, for chips only — figures sit on --bg */
-  --accent:#1f4e5f;      /* the dark teal of the PF curve in Figure 1 */
-  --accent-soft:#eaf1f3;
-}
-
-* { box-sizing:border-box; }
-html { -webkit-text-size-adjust:100%; }
-body {
-  margin:0; background:var(--bg); color:var(--ink);
-  font:17px/1.65 ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
-}
-main { max-width:52rem; margin:0 auto; padding:4.5rem 1.5rem 6rem; }
-
-/* ---- header ---- */
-header { text-align:center; padding-bottom:2.5rem; border-bottom:1px solid var(--line); }
-h1 {
-  font-size:clamp(1.75rem, 4.2vw, 2.6rem); line-height:1.15;
-  margin:0 0 1.5rem; letter-spacing:-.015em; text-wrap:balance;
-}
-.authors { font-size:1.02rem; margin:0 0 .5rem; line-height:1.9; }
-.authors a { color:var(--ink); text-decoration:none;
-  border-bottom:1px solid var(--line); }
-.authors a:hover { border-bottom-color:var(--accent); }
-sup { color:var(--accent); font-size:.72em; }
-.affil { color:var(--muted); font-size:.98rem; margin:0 0 .35rem; }
-.eq { color:var(--muted); font-size:.85rem; margin:0; }
-
-/* ---- link row ---- */
-.links {
-  display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center;
-  margin:2rem 0 0;
-}
-.links a {
-  display:inline-flex; align-items:center; gap:.45rem;
-  padding:.5rem 1rem; border-radius:999px;
-  border:1px solid var(--line); background:var(--panel);
-  color:var(--ink); text-decoration:none;
-  font:500 .88rem/1 ui-sans-serif,system-ui,-apple-system,sans-serif;
-  transition:border-color .15s, color .15s, background .15s;
-}
-.links a:hover { border-color:var(--accent); color:var(--accent); }
-.links a[aria-disabled="true"] {
-  opacity:.5; pointer-events:none;
-}
-.links svg { width:15px; height:15px; flex:none; }
-
-
-/* ---- sections ---- */
-section { padding-top:3.25rem; }
-h2 {
-  font:600 .78rem/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;
-  letter-spacing:.11em; text-transform:uppercase; color:var(--accent);
-  margin:0 0 1rem;
-}
-section > p { margin:0 0 1.15rem; }
-section > p:last-child { margin-bottom:0; }
-section > p a { color:var(--accent); }
-code, .mono {
-  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  font-size:.88em;
-}
-.lede { font-size:1.06rem; }
-
-/* Figures are white-background PNGs and the page is light, so they need no
-   plate. Wrap paper figures in <figure class="fig">. */
-
-/* Figures are white-background PNGs and the page is light, so they need no
-   plate. Wrap paper figures in <figure class="fig">. */
-.fig { margin:1.75rem 0; }
-.fig img { display:block; width:100%; height:auto; border-radius:8px; }
-.fig figcaption { color:var(--muted); font-size:.88rem; margin-top:.7rem; }
-
-/* ---- data section: tabs ---- */
-.tabs { display:flex; gap:.4rem; margin:0 0 1.5rem; flex-wrap:wrap; }
-.tabs button {
-  font:500 .86rem/1 ui-sans-serif,system-ui,-apple-system,sans-serif;
-  padding:.5rem .95rem; border-radius:999px; cursor:pointer;
-  border:1px solid var(--line); background:var(--panel); color:var(--ink);
-}
-.tabs button[aria-selected="true"] {
-  border-color:var(--accent); color:var(--accent); background:var(--accent-soft);
-}
-.pane[hidden] { display:none; }
-.hint { color:var(--muted); font-size:.9rem; margin:0 0 1.25rem; }
-
-/* ---- FirstProof browser ---- */
-.picker { display:flex; flex-wrap:wrap; gap:.35rem; margin:0 0 1.1rem; }
-.picker button {
-  font:500 .8rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
-  padding:.4rem .6rem; border-radius:6px; cursor:pointer;
-  border:1px solid var(--line); background:var(--panel); color:var(--muted);
-}
-.picker button[aria-current="true"] {
-  border-color:var(--accent); color:var(--accent); background:var(--accent-soft);
-}
-.picker button .n {
-  font-size:.72em; margin-left:.35rem; opacity:.75;
-}
-.proofbox {
-  /* vertical scroll only — a wide equation scrolls inside its own container
-     (see mjx-container below) rather than scrolling the whole proof sideways,
-     which is what made this feel two-dimensional */
-  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-  padding:1.25rem 0; margin:0;
-  max-height:34rem; overflow-y:auto; overflow-x:hidden;
-  font-size:.94rem; line-height:1.65;
-  /* no side padding, so the proof text keeps the same left edge as the rest
-     of the page */
-  scrollbar-gutter:stable;
-}
-.proofbox .head { font-weight:600; margin:1.6rem 0 .5rem; font-size:1.02em; }
-.proofbox .envhead { font-weight:600; margin:1.3rem 0 .35rem; }
-.proofbox .ref { color:var(--accent); }
-.proofbox .bullet { color:var(--muted); margin-right:.35rem; }
-.proofbox p { margin:.7rem 0; }
-/* display equations are the one thing that can exceed the column; let them
-   scroll on their own rather than widening the page */
-.proofbox mjx-container[display="true"] { overflow-x:auto; overflow-y:hidden;
-  padding:.2rem 0; }
-.problembox {
-  border-left:3px solid var(--accent); padding:.2rem 0 .2rem 1rem;
-  margin:0 0 1.5rem; font-size:.94rem;
-}
-.problembox .lbl, .errnote .lbl {
-  font:600 .68rem/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:.09em;
-  text-transform:uppercase; color:var(--muted); display:block; margin-bottom:.3rem;
-}
-mark.hl {
-  display:block; position:relative; background:#fdf3d8; color:inherit;
-  border-left:3px solid #e2b53c; border-radius:0 5px 5px 0;
-  padding:.5rem .7rem .5rem 2.4rem; margin:.9rem 0 0;
-}
-mark.hl > p:first-child { margin-top:0; }
-mark.hl > p:last-child { margin-bottom:0; }
-.hlnum {
-  position:absolute; left:.55rem; top:.55rem;
-  display:inline-block; min-width:1.3em; height:1.3em; line-height:1.3em;
-  text-align:center; border-radius:4px; background:#b8891c; color:#fff;
-  font:600 .7rem/1.3em ui-sans-serif,system-ui,sans-serif;
-}
-/* the referee-derived description, sitting directly under its span */
-.errnote {
-  border-left:3px solid var(--accent); background:var(--accent-soft);
-  border-radius:0 5px 5px 0; padding:.7rem .9rem; margin:0 0 .9rem 0;
-  font-size:.88rem;
-}
-.errnote p:first-of-type { margin-top:0; }
-.errnote p:last-child { margin-bottom:0; }
-.clean {
-  color:var(--muted); font-size:.9rem; border-left:3px solid var(--line);
-  padding:.5rem 0 .5rem 1rem; margin:0 0 1.25rem;
-}
-
-/* ---- arXiv table ---- */
-/* matches .proofbox: hairlines top and bottom, full content width, vertical
-   scroll only */
-.tablewrap {
-  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-  max-height:34rem; overflow-y:auto; overflow-x:hidden;
-  scrollbar-gutter:stable;
-}
-table.arxiv { border-collapse:collapse; width:100%; font-size:.85rem;
-  table-layout:fixed; }
-table.arxiv th {
-  position:sticky; top:0; z-index:1; background:var(--bg); text-align:left;
-  font:600 .7rem/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:.06em;
-  text-transform:uppercase; color:var(--muted);
-  padding:.7rem .8rem .55rem 0; border-bottom:1px solid var(--line);
-}
-table.arxiv th + th, table.arxiv td + td { padding-left:.9rem; }
-table.arxiv td { padding:.7rem .8rem .7rem 0; vertical-align:top;
-  border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
-table.arxiv col.c-paper { width:22%; }
-table.arxiv col.c-cat   { width:11%; }
-table.arxiv col.c-note  { width:52%; }
-table.arxiv col.c-loc   { width:15%; }
-table.arxiv tr:last-child td { border-bottom:0; }
-table.arxiv a { color:var(--accent); text-decoration:none; }
-table.arxiv a:hover { text-decoration:underline; }
-table.arxiv .cat { color:var(--muted); white-space:nowrap; }
-table.arxiv .ttl { color:var(--muted); display:block; margin-top:.2rem;
-  line-height:1.4; }
-table.arxiv .loc { font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-  font-size:.92em; line-height:1.45; }
-
-/* ---- example PF proof ---- */
-/* own class, not .tabs: the Data section's tab handler grabs every .tabs button */
-.views { display:flex; gap:.4rem; margin:0 0 1.25rem; flex-wrap:wrap; align-items:center; }
-.views button {
-  font:500 .86rem/1 ui-sans-serif,system-ui,-apple-system,sans-serif;
-  padding:.5rem .95rem; border-radius:999px; cursor:pointer;
-  border:1px solid var(--line); background:var(--panel); color:var(--ink);
-}
-.views button[aria-selected="true"] {
-  border-color:var(--accent); color:var(--accent); background:var(--accent-soft);
-}
-.pfbox {
-  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-  padding:1.1rem 0; max-height:40rem; overflow-y:auto; overflow-x:hidden;
-  scrollbar-gutter:stable;
-}
-.pfbox[hidden], .proofbox[hidden] { display:none; }
-.card { border:1px solid var(--line); border-radius:8px; margin:0 0 .5rem; overflow:hidden; }
-.card.d1 { margin-left:1.6rem; }
-.card.d2 { margin-left:3.2rem; }
-.card.d3 { margin-left:4.8rem; }
-.card > summary {
-  cursor:pointer; padding:.6rem .85rem; background:var(--panel); list-style:none;
-  font:600 .85rem/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;
-}
-.card > summary::-webkit-details-marker { display:none; }
-.card > summary::before {
-  content:"\25B8"; display:inline-block; margin-right:.5em; color:var(--muted);
-  transition:transform .12s;
-}
-.card[open] > summary::before { transform:rotate(90deg); }
-.card.d0 > summary { border-left:3px solid var(--accent); }
-.card .inner { padding:.85rem 1rem; font-size:.92rem; line-height:1.6; }
-.card .lbl {
-  font:600 .68rem/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:.09em;
-  text-transform:uppercase; color:var(--muted); display:block; margin-bottom:.4rem;
-}
-.card .pf { border-top:1px dashed var(--line); margin-top:.8rem; padding-top:.7rem;
-  color:#2a2c33; font-size:.9rem; }
-.card p { margin:.55rem 0; }
-.card mjx-container[display="true"] { overflow-x:auto; overflow-y:hidden; }
-/* blocks where our verifier found a (referee-confirmed) error */
-.card > summary .tag {
-  margin-left:.6rem; padding:.1rem .5rem; border-radius:999px; vertical-align:.08em;
-  font:600 .64rem/1.5 ui-sans-serif,system-ui,sans-serif; letter-spacing:.05em;
-  text-transform:uppercase; background:#b8891c; color:#fff;
-}
-.card.found > summary { border-left:3px solid #e2b53c; }
-.found-err {
-  background:#fdf3d8; border-left:3px solid #e2b53c; border-radius:0 5px 5px 0;
-  padding:.7rem .9rem; margin:.9rem 0 .6rem; font-size:.88rem;
-}
-.card .errnote { margin:0; }
-.found-err p:first-of-type, .card .errnote p:first-of-type { margin-top:0; }
-.found-err p:last-child { margin-bottom:0; }
-
-footer {
-  margin-top:4.5rem; padding-top:1.5rem; border-top:1px solid var(--line);
-  color:var(--muted); font-size:.85rem; text-align:center;
-}
-footer a { color:var(--muted); }
-</style>
+<link rel="stylesheet" href="static/site.css">
 </head>
 
 <body>
@@ -320,10 +66,16 @@ footer a { color:var(--muted); }
       FirstProofGradingBench
     </a>
   </nav>
+
+  <nav class="pagetabs" role="tablist">
+    <button role="tab" aria-selected="true"  data-tab="summary">Summary</button>
+    <button role="tab" aria-selected="false" data-tab="example">Example</button>
+    <button role="tab" aria-selected="false" data-tab="oai">OpenAI Manuscripts</button>
+    <button role="tab" aria-selected="false" data-tab="data">Released Data</button>
+  </nav>
 </header>
 
-<section id="summary">
-  <h2>Summary</h2>
+<section id="tab-summary">
   <p class="lede">Fully formal proofs are easy to verify because they are
   unambiguous and modular, but most proofs &mdash; particularly those written by
   AI systems &mdash; have neither property, and translating them into a formal
@@ -353,8 +105,7 @@ footer a { color:var(--muted); }
   </figure>
 </section>
 
-<section id="example">
-  <h2>Example Pseudo-Formal Proof</h2>
+<section id="tab-example" hidden>
   <p>Here is an example of a Pseudo-Formal version of a
   <a href="https://1stproof.org">First Proof</a> problem. The proof is an AI
   system's submitted
@@ -366,13 +117,26 @@ footer a { color:var(--muted); }
   <div class="views" role="tablist">
     <button role="tab" aria-selected="true"  data-v="pf">Pseudo-Formal view</button>
     <button role="tab" aria-selected="false" data-v="nl">Natural language view</button>
+    <div class="zoom" id="ex-zoom">
+      <button data-z="out" aria-label="Zoom out">&minus;</button>
+      <span class="zpct">100%</span>
+      <button data-z="in" aria-label="Zoom in">+</button>
+      <button data-z="fit">Fit</button>
+    </div>
   </div>
-  <div class="pfbox" id="ex-pf"></div>
+  <div id="ex-pf">
+    <div class="graph" id="ex-graph"></div>
+    <p class="gcap">Each box is a block of the Pseudo-Formal proof. Arrows point
+    from a block to each block whose proof cites it.
+    <span class="sw"></span>&thinsp;Blocks where our verifier found a
+    referee-confirmed error. Drag to pan, pinch or ctrl-scroll to zoom, and
+    click a block to read it.</p>
+    <div class="detail" id="ex-detail"></div>
+  </div>
   <div class="proofbox" id="ex-nl" hidden></div>
 </section>
 
-<section id="data">
-  <h2>Data</h2>
+<section id="tab-data" hidden>
   <p>We release two benchmarks. <b>ArxivMathGradingBench</b> is 100 arXiv
   mathematics papers whose authors later flagged and corrected an error, giving
   109 known errors located by the authors' own revision notes.
@@ -406,6 +170,30 @@ footer a { color:var(--muted); }
   </div>
 </section>
 
+<section id="tab-oai" hidden>
+  <p>Pseudo-Formal versions of a subset of the papers in
+  <a href="https://github.com/openai/math">openai/math</a>.</p>
+
+  <div class="search">
+    <input id="oai-q" type="search" autocomplete="off" spellcheck="false"
+           placeholder="Search papers" aria-label="Search papers">
+  </div>
+  <div class="results" id="oai-results" role="listbox"></div>
+
+  <div class="problembox" id="oai-paper"></div>
+  <div class="views">
+    <a id="oai-pdf" href="#" target="_blank" rel="noopener">Original paper &#8599;</a>
+    <div class="zoom" id="oai-zoom">
+      <button data-z="out" aria-label="Zoom out">&minus;</button>
+      <span class="zpct">100%</span>
+      <button data-z="in" aria-label="Zoom in">+</button>
+      <button data-z="fit">Fit</button>
+    </div>
+  </div>
+  <div class="graph tall" id="oai-graph"></div>
+  <div class="detail" id="oai-detail"></div>
+</section>
+
 <footer>
   <p>Correspondence:
   <a href="mailto:slimbark@stanford.edu">slimbark</a>,
@@ -419,6 +207,8 @@ footer a { color:var(--muted); }
 </main>
 
 <script src="static/data.js"></script>
+<script src="static/oai/index.js"></script>
+<script src="static/pfgraph.js"></script>
 <script>
 // MathJax must not typeset on load: the proof HTML is injected afterwards.
 // `mathReady` resolves in pageReady, i.e. once the bundle has actually loaded.
@@ -432,7 +222,9 @@ window.MathJax = {
     inlineMath: [['\\(', '\\)'], ['$', '$']],
     displayMath: [['\\[', '\\]'], ['$$', '$$']],
     processEscapes: true,
-    macros: (window.PFDATA && window.PFDATA.macros) || {}
+    // one table for both tabs; the two corpora agree on every shared name
+    macros: Object.assign({}, window.PFDATA && window.PFDATA.macros,
+                          window.OAI && window.OAI.macros)
   },
   options: { skipHtmlTags: ['script','noscript','style','textarea'] },
   startup: {
@@ -450,8 +242,11 @@ window.MathJax = {
 
   /* typeset a node once MathJax is genuinely up; clear first so re-renders do
      not accumulate stale output */
+  /* calls are chained: MathJax must not run two typesets at once, and
+     clicking through graph blocks can fire them back to back */
+  let mathQ = mathReady;
   function typeset(el) {
-    return mathReady.then(() => {
+    return mathQ = mathQ.then(() => {
       MathJax.typesetClear([el]);
       return MathJax.typesetPromise([el]);
     }).catch(e => console.error('MathJax:', e));
@@ -524,17 +319,39 @@ window.MathJax = {
         (in ${f.runs} of ${f.n_runs} runs)</span>${f.desc}</div>
       ${f.gold.map(g => `<div class="errnote"><span class="lbl">Matches referee
         error ${g.n}</span>${g.desc}</div>`).join('')}`;
-    exPf.innerHTML = X.blocks.map((b, i) => `
-      <details class="card d${b.depth}${b.found ? ' found' : ''}">
-        <summary>${esc(b.label)}${b.found ? '<span class="tag">Error found</span>' : ''}</summary>
-        <div class="inner">
-          <span class="lbl">Statement</span>${b.statement}
-          ${b.proof ? `<div class="pf"><span class="lbl">Proof</span>${b.proof}</div>` : ''}
-          ${found(b.found)}
-        </div>
-      </details>`).join('');
+    const B = X.blocks;
+
+    /* -- edges: from a block to each block whose proof names it ("By Lemmas
+       6.2 and 6.3"). Every sub-block in the PF tree is reached this way, so
+       the tree needs no edges of its own. -- */
+    const byLabel = new Map(B.map((b, i) => [b.label, i]));
+    const cites = B.map((b, i) => {
+      const s = new Set();
+      const t = (b.proof || '')
+        .replace(/\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|\$\$[\s\S]*?\$\$/g, ' ')
+        .replace(/&nbsp;/g, ' ').replace(/<[^>]+>/g, ' ');
+      const re = /\b(Theorem|Proposition|Lemma|Corollary|Claim|Definition)s?\s+((?:\d+(?:\.\d+)*(?:\s*,?\s*and\s+|\s*,\s*)?)+)/g;
+      for (const m of t.matchAll(re))
+        for (const n of m[2].match(/\d+(?:\.\d+)*/g)) {
+          const j = byLabel.get(m[1] + ' ' + n);
+          if (j != null && j !== i) s.add(j);
+        }
+      return s;
+    });
+    const edges = [];
+    B.forEach((b, i) => cites[i].forEach(j => edges.push({ from: j, to: i })));
+    const g = PFGraph({
+      graph: document.getElementById('ex-graph'),
+      zoom: document.getElementById('ex-zoom'),
+      detail: document.getElementById('ex-detail'),
+      typeset, extra: b => found(b.found),
+    });
+    // open on the first block with an error, since that is the point of the example
+    const first = B.findIndex(b => b.found);
+    g.show(B, edges, first < 0 ? 0 : first);
+
     exNl.innerHTML = X.proof_html;
-    typeset(document.getElementById('example'));
+    typeset(exProb); typeset(exNl);
 
     document.querySelectorAll('.views button[data-v]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -542,9 +359,102 @@ window.MathJax = {
           b.setAttribute('aria-selected', String(b === btn)));
         exPf.hidden = btn.dataset.v !== 'pf';
         exNl.hidden = btn.dataset.v !== 'nl';
+        document.getElementById('ex-zoom').hidden = btn.dataset.v !== 'pf';
+        if (!exPf.hidden) g.fit();
       });
     });
   }
+  /* ---------- page tabs: one per section ---------- */
+  const TABS = [...document.querySelectorAll('.pagetabs button')].map(b => b.dataset.tab);
+  let oai = null;                        // built the first time its tab opens
+  function showTab(name, slug) {
+    if (!TABS.includes(name)) name = TABS[0];
+    document.querySelectorAll('.pagetabs button').forEach(b =>
+      b.setAttribute('aria-selected', String(b.dataset.tab === name)));
+    // ids are tab-<name>, not <name>: a #example link must not scroll past the header
+    TABS.forEach(t => document.getElementById('tab-' + t).hidden = t !== name);
+    if (name === 'oai') {
+      oai = oai || oaiTab();
+      oai.open(slug || oai.current || oai.dflt);   // sets #oai/<paper>
+    } else {
+      const h = name === TABS[0] ? '' : '#' + name;
+      if (location.hash !== h)
+        history.replaceState(null, '', h || location.pathname + location.search);
+    }
+  }
+  document.querySelectorAll('.pagetabs button').forEach(b =>
+    b.addEventListener('click', () => showTab(b.dataset.tab)));
+
+  /* #example, #data, #oai or #oai/<paper> open that tab */
+  const route = () => {
+    const m = decodeURIComponent(location.hash).match(/^#([\w-]+)(?:\/(.+))?$/);
+    showTab(m ? m[1] : TABS[0], m && m[2]);
+  };
+  window.addEventListener('hashchange', route);
+
+  function oaiTab() {
+    const P = (window.OAI && window.OAI.papers) || [];
+    const q = document.getElementById('oai-q');
+    const list = document.getElementById('oai-results');
+    const head = document.getElementById('oai-paper');
+    const pdf = document.getElementById('oai-pdf');
+    const g = PFGraph({
+      graph: document.getElementById('oai-graph'),
+      zoom: document.getElementById('oai-zoom'),
+      detail: document.getElementById('oai-detail'),
+      typeset,
+    });
+    q.placeholder = `Search ${P.length} papers`;
+    const hay = P.map(p => `${p.title} ${p.family} ${p.family_title}`.toLowerCase());
+    const t = { current: null,
+                dflt: (P.find(p => p.slug === 'The-Quasi-Riemann-Hypothesis-September-30-2026')
+                       || P[0] || {}).slug };
+    let shown = [];
+    function filter() {
+      const terms = q.value.toLowerCase().split(/\s+/).filter(Boolean);
+      shown = P.map((p, i) => i).filter(i => terms.every(w => hay[i].includes(w)));
+      list.innerHTML = shown.length ? shown.map(i => `
+        <button role="option" data-i="${i}" aria-selected="${P[i].slug === t.current}">
+          ${esc(P[i].title)}
+          <span class="m">Result ${esc(P[i].family)} &middot; ${P[i].n} blocks</span>
+        </button>`).join('') : '<div class="none">No papers match.</div>';
+      if (list.innerHTML.includes('\\(')) typeset(list);   // a few titles carry math
+    }
+    q.addEventListener('input', filter);
+    q.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && shown.length) t.open(P[shown[0]].slug);
+    });
+    list.addEventListener('click', e => {
+      const b = e.target.closest('button[data-i]');
+      if (b) t.open(P[+b.dataset.i].slug);
+    });
+    // each paper's PF is its own script, loaded only when picked
+    window.OAI_PAPER = d => {
+      if (d.slug !== t.current) return;      // a later pick superseded this one
+      head.innerHTML = `<h3>${esc(d.title)}</h3>${d.family ? `<p class="fam">Result
+        ${esc(d.family)} &middot; ${esc(d.family_title)}</p>` : ''}${
+        d.abstract_html ? `<p>${d.abstract_html}</p>` : ''}`;
+      pdf.href = d.pdf;
+      typeset(head);
+      g.show(d.blocks, d.edges, 0);           // blocks come theorem-first
+    };
+    t.open = slug => {
+      if (!P.some(p => p.slug === slug)) slug = t.dflt;
+      if (!slug) return;
+      if (location.hash !== '#oai/' + slug) history.replaceState(null, '', '#oai/' + slug);
+      if (slug === t.current) return;
+      t.current = slug;
+      list.querySelectorAll('button[data-i]').forEach(b =>
+        b.setAttribute('aria-selected', String(P[+b.dataset.i].slug === slug)));
+      const s = document.createElement('script');
+      s.src = `static/oai/p/${slug}.js`;
+      s.onload = s.onerror = () => s.remove();
+      document.body.appendChild(s);
+    };
+    filter();
+    return t;
+  }
+  route();
 })();
 </script>
 </body>
